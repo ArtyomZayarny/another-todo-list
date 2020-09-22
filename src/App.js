@@ -1,7 +1,8 @@
 import React from 'react'; 
 import './App.css';
-import PostList from './components/PostList';
-import PostProvider from './components/PostProvider';
+import PostList from './components/PostsList/PostList';
+import PostProvider from './components/PostsList/PostProvider';
+
 
 const App = () => {
   return (
