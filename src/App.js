@@ -12,16 +12,8 @@ const App = () => {
   return (
     <div className="App">
       <button onClick={setModalVisible}>Add Task</button>
-      {/* {modalVisible && <div className="modal">
-        <div className="modal__content">
-          <form >
-            <input type="text"/>
-            <button>Add Post</button>
-          </form>
-        </div>
-  </div> } */}
         <PostProvider>
-          { (posts,updatePost, isLoading) => <PostList  isLoading={isLoading} updatePost={updatePost}  posts={posts}/> }
+          { (posts,updatePost) => <PostList  updatePost={updatePost}  posts={posts}/> }
         </PostProvider>
     </div>
   );

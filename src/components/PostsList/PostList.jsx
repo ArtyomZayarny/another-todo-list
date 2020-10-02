@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react';
 import styles from './PostList.module.css'
 import TodoItem from '../TodoItem/TodoItem'
 
-export default function PostList({updatePost,isLoading, ...props}) {
+export default function PostList({updatePost,isFetching, ...props}) {
     
 
     const [posts,setPost] = useState([])
@@ -22,7 +22,7 @@ export default function PostList({updatePost,isLoading, ...props}) {
                  <h3>Posts</h3>
              </div>
             <List celled >
-                { posts.map( post => <TodoItem  isLoading={isLoading} updatePost={updatePost} {...post}/>) }
+                { posts.map( post => <TodoItem  key={post.id} isFetching={isFetching} updatePost={updatePost} {...post}/>) }
             </List>
          </div>
     )

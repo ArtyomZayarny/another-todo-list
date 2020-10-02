@@ -2,37 +2,38 @@ import {useState, useEffect}from 'react'
 import apiClient from '../apiClient'
 
 export default function PostProvider(props) {
+    const [fetching,isFetching] =  useState(false)
     const [data,setData] = useState({
-        posts:[]
+        posts:[],
+        activeId:''
 })
-const [isLoading,setLoading] = useState(false)
-
-
 useEffect( () => {
-  
+
+  if (data.posts.length === 0) {
     apiClient.get('/todos').
     then( res => {
         setData({...data, posts:res.data})
     })
-
+  }
+  
 }, []);
+
 const updatePost = (id, status) => {
-    setLoading(true);
+   
+    setData({...data, activeId:id});
      apiClient.put(`/todos/${id}`, {name:status})
      .then(res => {
-            
         const updatedPosts = data.posts.map( (post) => {
             if (post.id === id) {
                 post.completed = status;
             }
             return post;
         });
-        setData({...data,updatedPosts })
-        setLoading(false)        
+        setData({...data,updatedPosts})     
      })
      .catch(error => {
         console.log(error);
       })
 }
-  return props.children(data.posts, updatePost, isLoading)
+  return props.children(data.posts, updatePost)
 }
