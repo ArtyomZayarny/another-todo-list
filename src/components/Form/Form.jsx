@@ -1,38 +1,54 @@
-import React, {useRef, useState,useImperativeHandle} from 'react';
+import React, {useState, useEffect} from 'react';
 import UsersProvider from '../../components/Providers/UsersProvider'
 import { Button, Modal,Input,Select } from 'semantic-ui-react';
 import styles from './Form.module.css';
 
 
+
 export default function Form ({setOpen, ...props}) {
-   const inputText = useRef();
     const [data,setData] = useState({
         text:'',
         user:'',
         userId:'',
+        error:false,
+        errorField:"",
+        errorMsg:"",
+
     })
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Sent')
-        console.log('ref', inputText)
+        if (!data.user) {
+          setData({...data, error:true, errorField:'user', errorMsg:'This field is required'});
+        }   
     }
     const handleChange = ({name,value, ...target}) => {
-        console.log(name,value)
         setData({...data, [name]:value})
     }
-    const handleSelect = (data,target) =>  {
-       console.log(target)
-    //    console.log(target.name);
-    //    console.log(target.value)
+    const handleSelect = (obj,target) =>  {
+        let usersList = target.options;
+        const user = usersList.filter( item => item.text === target.value);
+        const userId = user[0].key;
+        setData({...data, user:target.value,userId})
     }
+
+    // useEffect( () => {
+      
+
+    // }, [data.user])
  
 
       return (
         <form onSubmit={(e) => {handleSubmit(e)}}>
-            <input type="text" ref={inputText} />
               <div className="inputs">
-                <Input className={styles.inputs} value={data.text} onChange={(e)=>{handleChange(e.target)}} name="text" placeholder="What need to do?" />
+                <Input className={styles.inputs}
+                       value={data.text} 
+                       onChange={(e)=>{handleChange(e.target)}} 
+                       name="text" 
+                       placeholder="What need to do?"
+                       required={true} 
+                />
               </div>
               <div className="inputs">
                 <UsersProvider>
@@ -40,9 +56,12 @@ export default function Form ({setOpen, ...props}) {
                                          onChange={handleSelect}
                                          className={styles.inputs} 
                                          name="user" placeholder='Assign to'  
-                                         options={usersList}   
+                                         options={usersList}
+                                         value={data.user} 
+                                         required={true}
                                          /> }
                 </UsersProvider>
+                 {data.error && data.errorField === 'user' && <span>{data.errorMsg}</span> }
               </div>
               <div className="btn-area">
                 <Modal.Actions>
