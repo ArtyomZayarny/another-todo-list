@@ -5,9 +5,9 @@ import styles from './Form.module.css';
 
 
 
-export default function Form ({setOpen, ...props}) {
+export default function Form ({setOpen,addTodo, ...props}) {
     const [data,setData] = useState({
-        text:'',
+        title:'',
         user:'',
         userId:'',
         error:false,
@@ -15,13 +15,20 @@ export default function Form ({setOpen, ...props}) {
         errorMsg:"",
 
     })
-
+   const create = () => {
+      const {userId,title} = {...data};
+      const todo = Object.assign({}, {userId,title,completed:false});
+      setOpen(false)
+      addTodo(todo)
+   }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!data.user) {
-          setData({...data, error:true, errorField:'user', errorMsg:'This field is required'});
-        }   
+
+        if (!data.user) {//Required field is empty
+          return setData({...data, error:true, errorField:'user', errorMsg:'This field is required'});
+        } 
+        create();  
     }
     const handleChange = ({name,value, ...target}) => {
         setData({...data, [name]:value})
@@ -33,19 +40,18 @@ export default function Form ({setOpen, ...props}) {
         setData({...data, user:target.value,userId})
     }
 
-    // useEffect( () => {
-      
-
-    // }, [data.user])
- 
-
-      return (
+    useEffect( () => {
+      //Clear errors
+      setData({...data,error:false, errorField:'', errorMsg:'' });
+    }, [data.user]);
+    
+    return (
         <form onSubmit={(e) => {handleSubmit(e)}}>
               <div className="inputs">
                 <Input className={styles.inputs}
                        value={data.text} 
                        onChange={(e)=>{handleChange(e.target)}} 
-                       name="text" 
+                       name="title" 
                        placeholder="What need to do?"
                        required={true} 
                 />
@@ -54,14 +60,14 @@ export default function Form ({setOpen, ...props}) {
                 <UsersProvider>
                  {(usersList) =>  <Select 
                                          onChange={handleSelect}
-                                         className={styles.inputs} 
+                                         className={`${styles.select} ${data.errorField === 'user' ? styles.user : '' }`} 
                                          name="user" placeholder='Assign to'  
                                          options={usersList}
                                          value={data.user} 
                                          required={true}
                                          /> }
                 </UsersProvider>
-                 {data.error && data.errorField === 'user' && <span>{data.errorMsg}</span> }
+                 {data.error && data.errorField === 'user' && <span className={styles.errorMsg}>{data.errorMsg}</span> }
               </div>
               <div className="btn-area">
                 <Modal.Actions>

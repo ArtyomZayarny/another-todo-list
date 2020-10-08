@@ -17,6 +17,18 @@ useEffect( () => {
   }
   
 }, []);
+const addTodo = (todo) => {
+      apiClient.post('/todos',todo)
+      .then( (response) => {
+        const todo = response.data;
+        const posts = [...data.posts];
+        posts.unshift(todo);
+        setData({...data,posts})
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+}
 
 const updatePost = (id, status) => {
    
@@ -35,5 +47,5 @@ const updatePost = (id, status) => {
         console.log(error);
       })
 }
-  return props.children(data.posts, updatePost)
+  return props.children(data.posts, updatePost,addTodo)
 }
