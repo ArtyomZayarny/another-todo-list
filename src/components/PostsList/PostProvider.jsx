@@ -18,6 +18,7 @@ useEffect( () => {
   
 }, []);
 const addTodo = (todo) => {
+  console.log(todo)
       apiClient.post('/todos',todo)
       .then( (response) => {
         const todo = response.data;
@@ -33,7 +34,7 @@ const addTodo = (todo) => {
 const updatePost = (id, status) => {
    
     setData({...data, activeId:id});
-     apiClient.put(`/todos/${id}`, {name:status})
+     apiClient.patch(`/todos/${id}`, {name:status})
      .then(res => {
         const updatedPosts = data.posts.map( (post) => {
             if (post.id === id) {
