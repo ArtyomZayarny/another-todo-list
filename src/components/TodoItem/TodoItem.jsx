@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styles from '../TodoItem/TodoItem.module.css'
 import { Icon, List, Container,Dimmer,Loader} from 'semantic-ui-react';
 
-export default function TodoItem({updatePost, id, completed, title,isFetching, ...props}) {
+export default function TodoItem({updatePost, id, completed, title, ...props}) {
     const [loading,isLoading] = useState(false);
 
 

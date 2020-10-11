@@ -27,6 +27,25 @@
 .App-link {
   color: #61dafb;
 }
+.App.dark .ui.celled.list {
+  background-color: #777272;
+}
+.App.dark .ui.celled.list span,
+.App.dark .ui.celled.list i {
+  color:#fff;
+}
+.App.dark button.ui.button {
+  background-color: #000;
+  color: #fff;
+}
+.theme {
+  display: flex;
+  align-items: center;
+}
+.theme label {
+  display: inline-block;
+  margin-right: 10px;
+}
 
 @keyframes App-logo-spin {
   from {

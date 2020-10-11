@@ -18,12 +18,13 @@ useEffect( () => {
   
 }, []);
 const addTodo = (todo) => {
-  console.log(todo)
+      isFetching(true);
       apiClient.post('/todos',todo)
       .then( (response) => {
         const todo = response.data;
         const posts = [...data.posts];
         posts.unshift(todo);
+        isFetching(false)
         setData({...data,posts})
       })
       .catch(function (error) {
@@ -32,7 +33,6 @@ const addTodo = (todo) => {
 }
 
 const updatePost = (id, status) => {
-   
     setData({...data, activeId:id});
      apiClient.patch(`/todos/${id}`, {name:status})
      .then(res => {
@@ -48,5 +48,5 @@ const updatePost = (id, status) => {
         console.log(error);
       })
 }
-  return props.children(data.posts, updatePost,addTodo)
+  return props.children(data.posts, updatePost,addTodo, fetching)
 }
