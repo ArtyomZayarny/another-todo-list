@@ -29,7 +29,10 @@ const addTodo = (todo) => {
       })
       .catch(function (error) {
         console.log(error);
-      })
+      }) 
+}
+const deleteTodo = (id) => {
+  console.log('delete')
 }
 
 const updatePost = (id, status) => {

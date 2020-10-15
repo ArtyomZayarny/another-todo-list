@@ -15,12 +15,16 @@ export default function TodoItem({updatePost, id, completed, title, ...props}) {
       isLoading(false)
     },[completed])
   
+    const handleAction = (target) => {
+        console.log(target)
+        //updateStatus(id,!completed)
+    }
     return (
         <>
             
             <List.Item  
                 className={styles.item} 
-                onClick={() =>{updateStatus(id,!completed)}}
+                onClick={(e) =>{handleAction(e.target)}}
                 >
                 <Dimmer active={loading === true} inverted>
                         <Loader size="mini">Loading...</Loader>
@@ -30,7 +34,7 @@ export default function TodoItem({updatePost, id, completed, title, ...props}) {
                 </div>
                 <List.Content className={styles.itemContent}>
                     <span className={styles.itemTitle}>{title}</span>
-                    <Icon name="trash"/>
+                    <Icon name="trash" onClick={(e) =>{handleAction(e.target)}}/>
                 </List.Content>
             </List.Item>
         </>
