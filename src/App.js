@@ -11,7 +11,7 @@ const App = () => {
     <ThemeContext.Provider value={{theme, setTheme}}>
       <div className={`App ${theme}`}>
         <PostProvider>
-          { (posts,updatePost,addTodo,fetching) => <PostList  fetching={fetching} updatePost={updatePost}  posts={posts} addTodo={addTodo}/> }
+          { (posts,updatePost,addTodo,fetching,deleteTodo) => <PostList  deleteTodo={deleteTodo} fetching={fetching} updatePost={updatePost}  posts={posts} addTodo={addTodo}/> }
         </PostProvider>
       </div>
     </ThemeContext.Provider>

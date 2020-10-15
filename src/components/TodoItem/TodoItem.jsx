@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styles from '../TodoItem/TodoItem.module.css'
 import { Icon, List, Container,Dimmer,Loader} from 'semantic-ui-react';
 
-export default function TodoItem({updatePost, id, completed, title, ...props}) {
+export default function TodoItem({updatePost, id, completed, title, deleteTodo,  ...props}) {
     const [loading,isLoading] = useState(false);
 
 
@@ -15,16 +15,24 @@ export default function TodoItem({updatePost, id, completed, title, ...props}) {
       isLoading(false)
     },[completed])
   
-    const handleAction = (target) => {
-        console.log(target)
-        //updateStatus(id,!completed)
+    const handleAction = (e) => {
+        e.stopPropagation();
+
+        if (e.target.tagName === 'I') {
+            console.log(4);
+                deleteTodo(id)
+        } else {
+            console.log(5);
+            updateStatus(id,!completed)
+        }
+        
     }
     return (
         <>
             
             <List.Item  
                 className={styles.item} 
-                onClick={(e) =>{handleAction(e.target)}}
+                onClick={(e) =>{handleAction(e)}}
                 >
                 <Dimmer active={loading === true} inverted>
                         <Loader size="mini">Loading...</Loader>
@@ -34,7 +42,7 @@ export default function TodoItem({updatePost, id, completed, title, ...props}) {
                 </div>
                 <List.Content className={styles.itemContent}>
                     <span className={styles.itemTitle}>{title}</span>
-                    <Icon name="trash" onClick={(e) =>{handleAction(e.target)}}/>
+                    <Icon name="trash" onClick={(e) =>{handleAction(e)}}/>
                 </List.Content>
             </List.Item>
         </>

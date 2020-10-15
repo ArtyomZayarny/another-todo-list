@@ -5,7 +5,7 @@ import styles from './PostList.module.css'
 import TodoItem from '../TodoItem/TodoItem'
 import {ThemeContext} from '.././../App'
 
-export default function PostList({updatePost,fetching,addTodo, ...props}) {
+export default function PostList({updatePost,fetching,addTodo,deleteTodo, ...props}) {
     
     const [open, setOpen] = useState(false);
     const [posts,setPost] = useState([])
@@ -50,7 +50,7 @@ export default function PostList({updatePost,fetching,addTodo, ...props}) {
                 </Modal>
              </div>
             <List celled >
-                { posts.map( post => <TodoItem  key={post.id} updatePost={updatePost} {...post}/>) }
+                { posts.map( post => <TodoItem  key={post.id} deleteTodo={deleteTodo} updatePost={updatePost} {...post}/>) }
             </List>
          </div>
     )

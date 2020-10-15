@@ -32,7 +32,17 @@ const addTodo = (todo) => {
       }) 
 }
 const deleteTodo = (id) => {
-  console.log('delete')
+  console.log('delete', id)
+  isFetching(true);
+  apiClient.delete(`/todos/${id}`)
+  .then( (response) => {
+    const posts = data.posts.filter( todo => id !== todo.id);
+    setData({...data, posts})
+    isFetching(false)
+  })
+  .catch(function (error) {
+    console.log(error);
+  }) 
 }
 
 const updatePost = (id, status) => {
@@ -51,5 +61,5 @@ const updatePost = (id, status) => {
         console.log(error);
       })
 }
-  return props.children(data.posts, updatePost,addTodo, fetching)
+  return props.children(data.posts, updatePost,addTodo, fetching, deleteTodo)
 }
